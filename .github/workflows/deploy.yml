@@ -33,6 +33,8 @@ jobs:
           go-version: '^1.21.0'
 
       - name: Build content
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # make production-build URL=https://docs-fluxcd-website-6lrhgsuf.fermyon.app/
           pushd website
