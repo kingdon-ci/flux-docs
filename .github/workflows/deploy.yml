@@ -1,5 +1,16 @@
-on: push
 name: Deploy website on push
+
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+    # Check out fluxcd/website .github/workflows/netlify.yml
+    # We should emulate this fully - it has a hook from the fluxcd/community
+    # repository's github actions that enables community to trigger a deploy
+  repository_dispatch:
+    types: [trigger-workflow]
+    # (That's what a repository_dispatch workflow is meant to be doing here)
 
 jobs:
   fermyon-deploy:
@@ -55,7 +66,7 @@ jobs:
           registry_reference: "ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2"
           manifest_file: spin.toml
 
-      - name: Deploy and push OCI
+      - name: Deploy to Fermyon Cloud
         uses: fermyon/actions/spin/deploy@v1
         with:
           fermyon_token: ${{ secrets.FERMYON_CLOUD_TOKEN }}
