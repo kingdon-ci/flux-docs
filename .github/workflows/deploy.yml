@@ -1,0 +1,60 @@
+on: push
+name: Deploy website on push
+
+jobs:
+  fermyon-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest flux-docs
+        uses: actions/checkout@v4
+
+      - name: Get fluxcd/website (test-stimulus)
+        uses: actions/checkout@v4
+        with:
+          repository: fluxcd/website
+          ref: test-stimulus
+          path: website
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.122.0'
+          extended: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' 
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '^1.21.0'
+
+      - name: Build content
+        run: |
+          # make production-build URL=https://docs-fluxcd-website-6lrhgsuf.fermyon.app/
+          pushd website
+            pip install -r requirements.txt
+            hugo version; popd
+          make build
+
+      - name: Install Spin
+        uses: fermyon/actions/spin/setup@v1
+
+      - name: Push to OCI
+        id: push
+        uses: fermyon/actions/spin/push@v1
+        with:
+          registry: ghcr.io
+          registry_username: ${{ github.actor }}
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+          registry_reference: "ghcr.io/${{ env.REPOSITORY }}/build:${{ github.run_id }}-2"
+          manifest_file: spin.toml
+
+      - name: Deploy and push OCI
+        uses: fermyon/actions/spin/deploy@v1
+        with:
+          fermyon_token: ${{ secrets.FERMYON_CLOUD_TOKEN }}
+          run_build: false
