@@ -1,6 +1,6 @@
-# Weave GitOps Docs - Re-Hosted
+# Flux Docs - Re-Hosted
 
-These docs are published as: [docs.microscaler.com](https://docs.microscaler.com)
+These docs are published as: [(not public url)](https://docs-fluxcd-website-6lrhgsuf.fermyon.app/)
 
 You can easily repeat the same trick using Fermyon Cloud!
 
@@ -12,18 +12,14 @@ There are three `make` targets:
 
 ### `make clone`
 
-Git clone from `git@github.com:microscaler/weave-gitops`
+Git clone from `git@github.com:fluxcd/website`
+
+Check out your branch to preview
 
 ### `make build`
 
-Runs `cd weave-gitops/website && yarn build` - first, make sure you ran `yarn
-install` in the `weave-gitops/website` directory by hand.
-
-This was tested using Node `v21.7.1` and Yarn `1.22.19`
-
-### `make sync`
-
-Using `rsync`, populates the `assets/` directory with the build output.
+Runs `cd website && make production-build` - first, make sure you set up venv
+in your path and ran pip install.
 
 ## `spin deploy`
 
