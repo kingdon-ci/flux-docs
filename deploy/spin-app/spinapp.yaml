@@ -1,0 +1,7 @@
+apiVersion: core.spinoperator.dev/v1alpha1
+kind: SpinApp
+metadata:
+  name: flux-docs
+spec:
+  image: "flux-docs/build:updateme"
+  replicas: 2
