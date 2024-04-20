@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: fluxcd/website
-          ref: test-stimulus
+          ref: main
           path: website
 
       # Prerequisites:
