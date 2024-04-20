@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: flux-docs
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  ref:
+    tag: latest
+  url: oci://ghcr.io/kingdon-ci/flux-docs/manifests
+  verify:
+    provider: cosign
+    matchOIDCIdentity:
+      - issuer: "https://token.actions.githubusercontent.com"
+        subject: "^https://github.com/kingdon-ci/flux-docs/.*$"
