@@ -14,6 +14,10 @@ on:
 
 jobs:
   fermyon-deploy:
+    permissions:
+      # contents: write # Required for creating the GitHub release
+      packages: write # Required for pushing to GitHub Container Registry
+      id-token: write # Required for Cosign
     name: Deploy
     runs-on: ubuntu-latest
     steps:
@@ -85,6 +89,14 @@ jobs:
           pushd deploy/spin-app
             kustomize edit set image flux-docs/build=ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2
           popd
+
+      # Login: GHCR
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # Push: Kubernetes (Flux App)
       - name: Push manifests
