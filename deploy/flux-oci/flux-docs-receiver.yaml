@@ -1,0 +1,16 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: flux-docs
+  namespace: flux-system
+spec:
+  resources:
+  - apiVersion: source.toolkit.fluxcd.io/v1beta2
+    kind: OCIRepository
+    name: flux-docs
+  secretRef:
+    name: flux-docs-webhook
+  type: github
+  events:
+    - "package"
