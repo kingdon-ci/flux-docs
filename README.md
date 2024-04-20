@@ -24,3 +24,7 @@ in your path and ran pip install.
 ## `spin deploy`
 
 (You will need to update `spin.toml` to point at your own deployment)
+
+## Kubernetes deploy
+
+There are Flux OCI resources that you can use to deploy on Kubernetes as well (WIP)
