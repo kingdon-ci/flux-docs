@@ -27,6 +27,7 @@ jobs:
           ref: test-stimulus
           path: website
 
+      # Prerequisites:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
@@ -43,6 +44,7 @@ jobs:
         with:
           go-version: '^1.21.0'
 
+      # Build:
       - name: Build content
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,6 +58,7 @@ jobs:
       - name: Install Spin
         uses: fermyon/actions/spin/setup@v1
 
+      # Push: WASM
       - name: Push to OCI
         id: push
         uses: fermyon/actions/spin/push@v1
@@ -66,8 +69,47 @@ jobs:
           registry_reference: "ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2"
           manifest_file: spin.toml
 
+      # Deploy:
       - name: Deploy to Fermyon Cloud
         uses: fermyon/actions/spin/deploy@v1
         with:
           fermyon_token: ${{ secrets.FERMYON_CLOUD_TOKEN }}
           run_build: false
+
+      - name: Set up Flux CLI
+        uses: fluxcd/flux2/action@v2.2.3
+
+      # Update: Kubernetes manifests
+      - name: Set Image (Kustomize SpinApp)
+        run: |
+          pushd deploy/spin-app
+            kustomize edit set image flux-docs/build=ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2
+          popd
+
+      # Push: Kubernetes (Flux App)
+      - name: Push manifests
+        run: |
+          flux push artifact \
+          oci://ghcr.io/kingdon-ci/flux-docs/manifests:latest \
+          --path=deploy \
+          --source=${{ github.repositoryUrl }} \
+          --revision="${{ github.ref_name }}@sha1:${{ github.sha }}" \
+          --annotations='org.opencontainers.image.description=Fluxcd.io website SpinKube manifests'
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.4.0
+
+      - name: Cosign version
+        run: cosign version
+
+      # Sign: Kubernetes manifests
+      - name: Sign OCI YAML manifests
+        run: |
+          # keyless mode
+          cosign sign ghcr.io/kingdon-ci/flux-docs/manifests:latest -y
+
+      # Sign: Spin app OCI artifact
+      - name: Sign OCI WASM artifact
+        run: |
+          # keyless mode
+          cosign sign ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2 -y

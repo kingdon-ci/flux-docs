@@ -1,0 +1,4 @@
+kind: Kustomization
+namespace: default
+resources:
+- spin-operator.shim-executor.yaml
