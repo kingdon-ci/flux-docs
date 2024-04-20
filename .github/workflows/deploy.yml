@@ -79,6 +79,13 @@ jobs:
       - name: Set up Flux CLI
         uses: fluxcd/flux2/action@v2.2.3
 
+      # Update: Kubernetes manifests
+      - name: Set Image (Kustomize SpinApp)
+        run: |
+          pushd deploy/spin-app
+            kustomize edit set image flux-docs/build=ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2
+          popd
+
       # Push: Kubernetes (Flux App)
       - name: Push manifests
         run: |
@@ -94,13 +101,6 @@ jobs:
 
       - name: Cosign version
         run: cosign version
-
-      # Update: Kubernetes manifests
-      - name: Set Image (Kustomize SpinApp)
-        run: |
-          pushd deploy/spin-app
-            kustomize edit set image flux-docs/build=ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2
-          popd
 
       # Sign: Kubernetes manifests
       - name: Sign OCI YAML manifests
