@@ -24,11 +24,11 @@ jobs:
       - name: Get latest flux-docs
         uses: actions/checkout@v4
 
-      - name: Get fluxcd/website (test-stimulus)
+      - name: Get fluxcd/website (test-community)
         uses: actions/checkout@v4
         with:
           repository: fluxcd/website
-          ref: main
+          ref: test-community
           path: website
 
       # Prerequisites:
