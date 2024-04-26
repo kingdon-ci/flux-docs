@@ -10,3 +10,4 @@ FROM scratch
 COPY --from=build-go /opt/build/spin_static_fs.wasm .
 COPY --from=build-go /opt/build/spin.toml .
 COPY --from=build-go /opt/build/website .
+ENTRYPOINT ["/spin.toml"]
