@@ -61,8 +61,8 @@ jobs:
           pushd website/public
             rm -r flagger blog img/logos flux/cmd flux/components
             rm -r flux/installation img/diagrams
-            # rm -r flux/use-cases flux/guides flux/monitoring flux/migration
-            # rm -rf flux/gitops-toolkit img/screens shortcode-gallery img/*.png
+            rm -r flux/use-cases flux/guides flux/monitoring flux/migration
+            rm -rf flux/gitops-toolkit img/screens shortcode-gallery img/*.png
             rm -r flux/cheatsheets # Get us below 200 (https://github.com/spinkube/containerd-shim-spin/issues/28)
           popd
 
