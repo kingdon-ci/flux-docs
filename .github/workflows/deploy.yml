@@ -59,11 +59,10 @@ jobs:
             hugo version; popd
           make build
           pushd website/public
-            rm -r blog
-            rm -r img/logos
-            rm -r flux/cmd
-            rm -r flux/components
-            rm -r flux/cheatsheets # Get us below 500 (https://github.com/spinkube/containerd-shim-spin/issues/28)
+            rm -r flagger blog img/logos flux/cmd flux/components
+            rm -r flux/installation img/diagrams
+            rm -r flux/use-cases flux/guides flux/monitoring flux/migration
+            rm -r flux/cheatsheets # Get us below 300 (https://github.com/spinkube/containerd-shim-spin/issues/28)
           popd
 
       - name: Install Spin
