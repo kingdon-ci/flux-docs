@@ -25,6 +25,21 @@ in your path and ran pip install.
 
 (You will need to update `spin.toml` to point at your own deployment)
 
+### Issues
+
+#### Issue #1
+
+```
+Error: cannot push Spin application
+
+Caused by:
+      Server error: url https://ghcr.io/v2/kingdon-ci/flux-docs/build/blobs/upload/0b47a1a2-9ed1-4f26-9bcd-d6595ca73e6f, code: 429, message: {"errors":[{"code":"TOOMANYREQUESTS","message":"retry-after: 22.625684ms, allowed: 2000/minute"}]}
+```
+
+<https://github.com/kingdon-ci/flux-docs/actions/runs/8841935876/job/24279803417>
+
+Hmm
+
 ## Kubernetes deploy
 
 There are Flux OCI resources that you can use to deploy on Kubernetes as well (WIP)
