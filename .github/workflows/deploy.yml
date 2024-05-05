@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: fluxcd/website
-          ref: test-community
+          ref: main
           path: website
 
       # Prerequisites:
