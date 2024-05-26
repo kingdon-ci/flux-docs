@@ -124,7 +124,7 @@ jobs:
       - name: Set Image (Kustomize SpinApp)
         run: |
           pushd deploy/spin-app
-            kustomize edit set image flux-docs/build=ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2
+            kustomize edit set image flux-docs/build=ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-3
           popd
 
       # Login: GHCR
@@ -162,4 +162,4 @@ jobs:
       - name: Sign OCI WASM artifact
         run: |
           # keyless mode
-          cosign sign ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-2 -y
+          cosign sign ghcr.io/kingdon-ci/flux-docs/build:${{ github.run_id }}-3 -y
