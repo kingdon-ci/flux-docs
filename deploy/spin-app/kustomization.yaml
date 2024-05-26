@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: flux-docs
 resources:
 - spinapp.yaml
-- ingress.yaml
 images:
 - name: flux-docs/build
   newname: ghcr.io/kingdon-ci/flux-docs/build # image:name
