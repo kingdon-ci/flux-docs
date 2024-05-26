@@ -1,4 +1,5 @@
 kind: Kustomization
-namespace: default
+namespace: flux-docs
 resources:
+- namespace.yaml
 - spin-operator.shim-executor.yaml

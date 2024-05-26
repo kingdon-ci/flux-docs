@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: docs-infra
-  namespace: default
+  name: docs-ingress
+  namespace: flux-system
 spec:
   timeout: 1m0s
   retryInterval: 1m30s
   interval: 10m0s
-  path: ./spin-infra
+  path: ./spin-dev
   prune: true
   wait: true
   sourceRef:
