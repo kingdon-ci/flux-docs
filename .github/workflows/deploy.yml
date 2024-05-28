@@ -111,11 +111,11 @@ jobs:
       #     provenance: false
 
       # Deploy:
-      # - name: Deploy to Fermyon Cloud
-      #   uses: fermyon/actions/spin/deploy@v1
-      #   with:
-      #     fermyon_token: ${{ secrets.FERMYON_CLOUD_TOKEN }}
-      #     run_build: false
+      - name: Deploy to Fermyon Cloud
+        uses: fermyon/actions/spin/deploy@v1
+        with:
+          fermyon_token: ${{ secrets.FERMYON_CLOUD_TOKEN }}
+          run_build: false
 
       - name: Set up Flux CLI
         uses: fluxcd/flux2/action@v2.2.3
